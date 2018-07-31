@@ -1,0 +1,31 @@
+{
+  "name": "protractor-zephyr-cloud-reporter-for-jira-cloud",
+  "version": "0.0.1",
+  "description": "Zephyr reporter using ZAPI for Jasmine and Protractor\"",
+  "main": "index.js",
+  "scripts": {
+    "test": "jasmine-node ./spec"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/boriskozak/protractor-zephyr-cloud-reporter-for-jira-cloud.git"
+  },
+  "keywords": [
+    "jasmine",
+    "protractor",
+    "jira",
+    "zapi",
+    "zephyr"
+  ],
+  "author": "boris kozak",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/boriskozak/protractor-zephyr-cloud-reporter-for-jira-cloud/issues"
+  },
+  "homepage": "https://github.com/boriskozak/protractor-zephyr-cloud-reporter-for-jira-cloud#readme",
+  "dependencies": {
+    "jasmine-node": "^1.15.0",
+    "popsicle": "^10.0.1",
+    "popsicle-basic-auth": "^1.0.0"
+  }
+}
