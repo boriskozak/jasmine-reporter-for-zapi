@@ -106,5 +106,8 @@ var getExecutionsForIssue = function(issueKey) {
 }
 
 module.exports = {
-    getServerInfo, getExecutionStatuses, zqlSearch, getExecutionsForIssue
+    getServerInfo,
+    getExecutionStatuses,
+    zqlSearch,
+    getExecutionsForIssue
 };
