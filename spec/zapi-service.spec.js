@@ -4,19 +4,40 @@ const ZAPI = require('../src/zapi-service');
 
 describe('ZapiService', () => {
 
-	it('should identify itself'), (done) => {
-		expect(ZAPI.moduleName().toEqual('zapiService'))
-		done();
-	}
-
-    it(`should return the server info`, (done) => {
-
+    it('should return the server info', (done) => {
         ZAPI.getServerInfo().then((result) => {
-           expect(result.addonServerInfo['name']).toEqual('zephyr-connect')
-           done();
+            expect(result.addonServerInfo['name']).toEqual('zephyr-connect')
+            done();
         })
-
     });
+
+
+    it('should search via ZQL and return 0 results for a non existing issue', (done) => {
+        query = "ISSUE = QT-XXXX";
+        ZAPI.zqlSearch(query).then((result) => {
+            expect(result.totalTests).toEqual(0);
+            done();
+        })
+    });
+
+
+
+    it('should return execution statuses', (done) => {
+        ZAPI.getExecutionStatuses().then((result) => {
+            done();
+        })
+    });
+
+
+    it('should return executions for an issue', (done) => {
+        issueKey = "QT-1461"
+        ZAPI.getExecutionsForIssue(issueKey).then((result) => {
+            expect(result.totalTests).toEqual(24);
+            done();
+        })
+    });
+
+
 
 
 })
