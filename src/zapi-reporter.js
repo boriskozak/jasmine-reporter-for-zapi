@@ -1,19 +1,42 @@
-global.__ZAPIcreds = [process.env.ZAPI_ACCESS_KEY, process.env.ZAPI_SECRET_KEY, process.env.ASSIGNEE];
-const ZAPI = require('./zapi-service');
+//global.__ZAPIcreds = [process.env.ZAPI_ACCESS_KEY, process.env.ZAPI_SECRET_KEY, process.env.ASSIGNEE];
 
-const ZapiReporter = (onCompleteDefer, browser) => {
-
+const ZapiReporter = (onPrepareDefer, onCompleteDefer, browser) => {
+    this.fs = require('fs');
     this.globals = {
         executionId: '',
         cycleId: '',
-        status: '1'
+        status: '1',
+        projectId: '15100'
     };
 
+    this.disabled = false
+
+    this.onPrepareDefer = onPrepareDefer;
     this.onCompleteDefer = onCompleteDefer;
     this.browser = browser;
 
     this.specPromises = [];
     this.specPromisesResolve = {};
+
+    this.zapiService = require('./zapi-service');
+
+    if (this.disabled) {
+        console.info('ZAPI Reporter is disabled, not doing anything.');
+        if (this.onPrepareDefer.resolve) {
+            this.onPrepareDefer.resolve();
+        } else {
+            this.onPrepareDefer.fulfill();
+        }
+
+        if (this.onCompleteDefer.resolve) {
+            this.onCompleteDefer.resolve();
+        } else {
+            this.onCompleteDefer.fulfill();
+        }
+        return;
+    }
+
+
 
     this.suiteStarted = require('./zapi-reporter-functions/suite-started').bind(this);
     this.specStarted = require('./zapi-reporter-functions/spec-done').bind(this);

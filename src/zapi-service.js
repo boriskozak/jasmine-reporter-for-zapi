@@ -108,6 +108,22 @@ var getExecutionsForIssue = function(issueKey) {
     });
 }
 
+var deleteAllExecutionsForIssue = function(issueKey) {
+    getExecutionsForIssue(issueKey).then((result) => {
+        executionIds = result.tests.map(function(execution) {
+            return execution.executionId;
+        })
+        body = {
+            "executions" : executionIds
+        }
+        return callZapiCloud('POST', '/executions/delete', 'application/json', ...__ZAPIcreds,body);
+
+
+    });
+
+
+}
+
 var getIssueIdFromIssueKey = function(issueKey) {
     return zqlSearch("ISSUE = " + issueKey).then((result) => {
         return result.tests[0].issueId;
@@ -144,6 +160,8 @@ var createExecution = function(issueKey, projectId, executionStatus) {
 
 var createAdHocExecution = function(issueKey, projectId) {
     //find the issue key
+    console.log("issue key " + issueKey)
+    console.log("project id " + projectId)
     return getIssueIdFromIssueKey(issueKey).then((issueId) => {
         // get the cycle id
         body = {
@@ -175,6 +193,7 @@ var updateExecutionStatus = function(executionId, issueKey, projectId, execution
 }
 
 module.exports = {
+    deleteAllExecutionsForIssue,
     getServerInfo,
     getExecutionStatuses,
     zqlSearch,

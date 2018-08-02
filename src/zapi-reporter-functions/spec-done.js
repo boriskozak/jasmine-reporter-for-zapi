@@ -1,6 +1,10 @@
 
 module.exports = function(spec) {
 
+    if (this.disabled) {
+        return;
+    }
+
     if (spec.status === 'disabled') {
         this.specPromisesResolve[spec.id]();
         return;

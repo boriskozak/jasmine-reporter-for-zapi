@@ -5,12 +5,13 @@ module.exports = function(suite) {
         return;
     }
 
-    const issueId = suite.description.split('@')[1];
-    console.log(issueId)
-    console.log(suite)
+    // This should be the JIRA issue key, which is added on to the end of the test suite description
+    const issueKey = suite.description.split('@')[1];
+    this.globals.issueKey = issueKey
 
-    this.zephyrService.createExecution(this.globals.cycleId, issueId, (executionId) => {
+    this.zapiService.createAdHocExecution(issueKey, this.globals.projectId, (executionId) => {
         this.globals.executionId = executionId;
+        console.log("Got execution id " + executionId)
     }, (error) => {
         console.error(error);
         if (this.onPrepareDefer.resolve) {

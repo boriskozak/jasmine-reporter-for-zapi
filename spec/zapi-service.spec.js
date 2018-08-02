@@ -1,4 +1,4 @@
-global.__ZAPIcreds = [process.env.ZAPI_ACCESS_KEY, process.env.ZAPI_SECRET_KEY, process.env.ASSIGNEE];
+//global.__ZAPIcreds = [process.env.ZAPI_ACCESS_KEY, process.env.ZAPI_SECRET_KEY, process.env.ASSIGNEE];
 
 const ZAPI = require('../src/zapi-service');
 
@@ -30,8 +30,9 @@ describe('ZapiService', () => {
 
 
     xit('should return executions for an issue', (done) => {
-        issueKey = "QT-1461"
+        issueKey = "APPLY-2302"
         ZAPI.getExecutionsForIssue(issueKey).then((result) => {
+        	console.log(result.tests)
             expect(result.totalTests).toEqual(24);
             done();
         })
@@ -76,7 +77,7 @@ describe('ZapiService', () => {
 
     xit('should create a new Ad Hoc execution given an issue key and project id', (done) => {
 
-        ZAPI.createAdHocExecution("APPLY-2302", 15100, 2).then((result) => {
+        ZAPI.createAdHocExecution("APPLY-2302", 15100).then((result) => {
             console.log(result);
             done();
         })
@@ -85,7 +86,16 @@ describe('ZapiService', () => {
 
     it('should update an execution status given an ID', (done) => {
 
-        ZAPI.updateExecutionStatus("11f55348-9acc-479c-9675-3499c71c16c8","APPLY-2302",15100, 2).then((result) => {
+        ZAPI.updateExecutionStatus("0e036040-8d5a-4e29-949f-3416bca4319e", "APPLY-2302", 15100, 2).then((result) => {
+            console.log(result);
+            done();
+        })
+
+    });
+
+    xit('should delete all executions for an ID', (done) => {
+
+        ZAPI.deleteAllExecutionsForIssue("APPLY-2302").then((result) => {
             console.log(result);
             done();
         })
