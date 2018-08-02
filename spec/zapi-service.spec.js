@@ -22,7 +22,7 @@ describe('ZapiService', () => {
 
 
 
-    it('should return execution statuses', (done) => {
+    xit('should return execution statuses', (done) => {
         ZAPI.getExecutionStatuses().then((result) => {
             done();
         })
@@ -56,7 +56,7 @@ describe('ZapiService', () => {
         })
     });
 
-    it('should create a passed execution by issue id and project id', (done) => {
+    xit('should create a passed execution by issue id and project id', (done) => {
 
         ZAPI.createExecution("APPLY-2302", 15100, 1).then((result) => {
             console.log(result);
@@ -65,9 +65,27 @@ describe('ZapiService', () => {
 
     });
 
-     it('should create a failed execution by issue id and project id', (done) => {
+    xit('should create a failed execution by issue id and project id', (done) => {
 
         ZAPI.createExecution("APPLY-2302", 15100, 2).then((result) => {
+            console.log(result);
+            done();
+        })
+
+    });
+
+    xit('should create a new Ad Hoc execution given an issue key and project id', (done) => {
+
+        ZAPI.createAdHocExecution("APPLY-2302", 15100, 2).then((result) => {
+            console.log(result);
+            done();
+        })
+
+    });
+
+    it('should update an execution status given an ID', (done) => {
+
+        ZAPI.updateExecutionStatus("11f55348-9acc-479c-9675-3499c71c16c8","APPLY-2302",15100, 2).then((result) => {
             console.log(result);
             done();
         })

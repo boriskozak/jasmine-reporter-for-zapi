@@ -136,18 +136,41 @@ var createExecution = function(issueKey, projectId, executionStatus) {
             return callZapiCloud('POST', '/execution', 'application/json', ...__ZAPIcreds, body).then((execution) => {
                 executionId = execution.execution.id
                 return callZapiCloud('PUT', '/execution/' + executionId, 'application/json', ...__ZAPIcreds, body)
-
-
             });
 
         })
     })
 }
 
+var createAdHocExecution = function(issueKey, projectId) {
+    //find the issue key
+    return getIssueIdFromIssueKey(issueKey).then((issueId) => {
+        // get the cycle id
+        body = {
+            "projectId": projectId,
+            "issueId": issueId,
+            "versionId": -1
+        }
+        return callZapiCloud('POST', '/execution', 'application/json', ...__ZAPIcreds, body).then((execution) => {
+            return execution.execution.id
+        });
+    })
+}
 
 
 
-var updateExecutionStatus = function(projectId, versionId, issue) {
+var updateExecutionStatus = function(executionId, issueKey, projectId, executionStatus) {
+    return getIssueIdFromIssueKey(issueKey).then((issueId) => {
+        body = {
+            "projectId": projectId,
+            "issueId": issueId,
+            "versionId": -1,
+            "status": { "id": executionStatus }
+        }
+        return callZapiCloud('PUT', '/execution/' + executionId, 'application/json', ...__ZAPIcreds, body).then((result) => {
+            return result
+        });
+    })
 
 }
 
@@ -158,5 +181,7 @@ module.exports = {
     getExecutionsForIssue,
     getCycleFromCycleName,
     getIssueIdFromIssueKey,
-    createExecution
+    createExecution,
+    createAdHocExecution,
+    updateExecutionStatus
 };

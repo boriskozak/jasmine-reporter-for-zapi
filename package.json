@@ -2,7 +2,7 @@
   "name": "protractor-zephyr-cloud-reporter-for-jira-cloud",
   "version": "0.0.1",
   "description": "Zephyr reporter using ZAPI for Jasmine and Protractor\"",
-  "main": "index.js",
+  "main": "src/zapi-reporter.js",
   "scripts": {
     "test": "jasmine-node ./spec/zapi-service.spec.js"
   },
