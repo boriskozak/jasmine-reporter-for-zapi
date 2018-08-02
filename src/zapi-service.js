@@ -43,7 +43,6 @@ function callZapiCloud(METHOD, URI, CONTENT_TYPE, ACCESS_KEY, SECRET_KEY, USER, 
         'headers': {
             'zapiAccessKey': ACCESS_KEY,
             'Authorization': 'JWT ' + token,
-            // 'Authorization' : 'JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJiayIsInFzaCI6IjY2MWY3ZDJjZDU1YzU1NTI1MGQwYmJlODMyZGFjMjJmMDU2ZTJmYzQ0MTcwNmE2NjU2Y2Y4YWFlMzVkZjJjNTAiLCJpc3MiOiJhbWx5WVRvME1UTXpPVFk0SUdKcklGVlRSVkpmUkVWR1FWVk1WRjlPUVUxRiIsImV4cCI6MTUzMzE2NDIxMzA2NSwiaWF0IjoxNTMzMTY0MTQxMDY1fQ.WPLwKIHgk7cY5zqrJBhgwYBnzUdcGOKPV25qXq0pwKI',
             'Content-Type': CONTENT_TYPE
         },
         'json': BODY
