@@ -19,6 +19,8 @@ function callZapiCloud(METHOD, URI, CONTENT_TYPE, ACCESS_KEY, SECRET_KEY, USER, 
         CANONICAL_PATH = `${METHOD}&${RELATIVE_PATH}&`;
     }
 
+    console.log(CANONICAL_PATH)
+
     hash.update(CANONICAL_PATH);
     let encodedQsh = hash.digest('hex');
 
@@ -37,9 +39,11 @@ function callZapiCloud(METHOD, URI, CONTENT_TYPE, ACCESS_KEY, SECRET_KEY, USER, 
     let options = {
         'method': METHOD,
         'url': API_URL,
+        //'url' : 'https://prod-api.zephyr4jiracloud.com/connect/public/rest/api/1.0/cycles/search?projectId=15100&versionId=-1',
         'headers': {
             'zapiAccessKey': ACCESS_KEY,
             'Authorization': 'JWT ' + token,
+            // 'Authorization' : 'JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJiayIsInFzaCI6IjY2MWY3ZDJjZDU1YzU1NTI1MGQwYmJlODMyZGFjMjJmMDU2ZTJmYzQ0MTcwNmE2NjU2Y2Y4YWFlMzVkZjJjNTAiLCJpc3MiOiJhbWx5WVRvME1UTXpPVFk0SUdKcklGVlRSVkpmUkVWR1FWVk1WRjlPUVUxRiIsImV4cCI6MTUzMzE2NDIxMzA2NSwiaWF0IjoxNTMzMTY0MTQxMDY1fQ.WPLwKIHgk7cY5zqrJBhgwYBnzUdcGOKPV25qXq0pwKI',
             'Content-Type': CONTENT_TYPE
         },
         'json': BODY
@@ -96,7 +100,7 @@ var getExecutionStatuses = function() {
 }
 
 var getServerInfo = function() {
-    return callZapiCloud('GET', '/serverinfo', 'application/json', ...__ZAPIcreds);
+    return callZapiCloud('GET', '/serverinfo?versionId=1', 'application/json', ...__ZAPIcreds);
 }
 
 var getExecutionsForIssue = function(issueKey) {
@@ -105,9 +109,55 @@ var getExecutionsForIssue = function(issueKey) {
     });
 }
 
+var getIssueIdFromIssueKey = function(issueKey) {
+    return zqlSearch("ISSUE = " + issueKey).then((result) => {
+        return result.tests[0].issueId;
+    });
+}
+
+var getCycleFromCycleName = function(jiraProjectId, jiraProjectVersion, cycleName) {
+    return callZapiCloud('GET', `/cycles/search?projectId=${jiraProjectId}&versionId=${jiraProjectVersion}`, 'text/plain', ...__ZAPIcreds)
+        .then(allCycles => {
+            return allCycles.filter(function(cycle) { return cycle.name == cycleName })
+        });
+}
+
+var createExecution = function(issueKey, projectId, executionStatus) {
+    //find the issue key
+    return getIssueIdFromIssueKey(issueKey).then((issueId) => {
+        // get the cycle id
+        return getCycleFromCycleName(projectId, -1, "Ad hoc").then((result) => {
+            cycleId = result[0].ztId
+            body = {
+                "projectId": projectId,
+                "issueId": issueId,
+                "versionId": -1,
+                "status": { "id": executionStatus }
+            }
+            return callZapiCloud('POST', '/execution', 'application/json', ...__ZAPIcreds, body).then((execution) => {
+                executionId = execution.execution.id
+                return callZapiCloud('PUT', '/execution/' + executionId, 'application/json', ...__ZAPIcreds, body)
+
+
+            });
+
+        })
+    })
+}
+
+
+
+
+var updateExecutionStatus = function(projectId, versionId, issue) {
+
+}
+
 module.exports = {
     getServerInfo,
     getExecutionStatuses,
     zqlSearch,
-    getExecutionsForIssue
+    getExecutionsForIssue,
+    getCycleFromCycleName,
+    getIssueIdFromIssueKey,
+    createExecution
 };
