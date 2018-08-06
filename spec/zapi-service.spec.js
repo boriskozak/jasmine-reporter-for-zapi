@@ -1,4 +1,4 @@
-//global.__ZAPIcreds = [process.env.ZAPI_ACCESS_KEY, process.env.ZAPI_SECRET_KEY, process.env.ASSIGNEE];
+global.__ZAPIcreds = [process.env.ZAPI_ACCESS_KEY, process.env.ZAPI_SECRET_KEY, process.env.ASSIGNEE];
 
 const ZAPI = require('../src/zapi-service');
 
@@ -29,11 +29,11 @@ describe('ZapiService', () => {
     });
 
 
-    xit('should return executions for an issue', (done) => {
+    it('should return executions for an issue', (done) => {
         issueKey = "APPLY-2302"
         ZAPI.getExecutionsForIssue(issueKey).then((result) => {
         	console.log(result.tests)
-            expect(result.totalTests).toEqual(24);
+            expect(result.totalTests).toBeGreaterThan(0);
             done();
         })
     });
@@ -49,7 +49,7 @@ describe('ZapiService', () => {
     });
 
 
-    xit('should return an issue ID given an issue key', (done) => {
+    it('should return an issue ID given an issue key', (done) => {
         issueKey = "APPLY-2302"
         ZAPI.getIssueIdFromIssueKey(issueKey).then((result) => {
             expect(result).toEqual(94460);
@@ -84,7 +84,7 @@ describe('ZapiService', () => {
 
     });
 
-    it('should update an execution status given an ID', (done) => {
+    xit('should update an execution status given an ID', (done) => {
 
         ZAPI.updateExecutionStatus("0e036040-8d5a-4e29-949f-3416bca4319e", "APPLY-2302", 15100, 2).then((result) => {
             console.log(result);

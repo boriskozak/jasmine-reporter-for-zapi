@@ -1,4 +1,4 @@
-//global.__ZAPIcreds = [process.env.ZAPI_ACCESS_KEY, process.env.ZAPI_SECRET_KEY, process.env.ASSIGNEE];
+global.__ZAPIcreds = [process.env.ZAPI_ACCESS_KEY, process.env.ZAPI_SECRET_KEY, process.env.ASSIGNEE];
 
 const ZapiReporter = (onPrepareDefer, onCompleteDefer, browser) => {
     this.fs = require('fs');
@@ -9,6 +9,8 @@ const ZapiReporter = (onPrepareDefer, onCompleteDefer, browser) => {
         projectId: '15100'
     };
 
+    console.log('initializing reporter')
+
     this.disabled = false
 
     this.onPrepareDefer = onPrepareDefer;
@@ -17,6 +19,8 @@ const ZapiReporter = (onPrepareDefer, onCompleteDefer, browser) => {
 
     this.specPromises = [];
     this.specPromisesResolve = {};
+
+    this.suitePromises = [];
 
     this.zapiService = require('./zapi-service');
 
@@ -37,16 +41,20 @@ const ZapiReporter = (onPrepareDefer, onCompleteDefer, browser) => {
     }
 
 
-
     this.suiteStarted = require('./zapi-reporter-functions/suite-started').bind(this);
-    this.specStarted = require('./zapi-reporter-functions/spec-done').bind(this);
 
-    this.suiteDone = require('./zapi-reporter-functions/suite-done').bind(this);
+
+    require('./zapi-reporter-functions/init').bind(this)();
+
+    this.specStarted = require('./zapi-reporter-functions/spec-started').bind(this);
     this.specDone = require('./zapi-reporter-functions/spec-done').bind(this);
+    this.suiteDone = require('./zapi-reporter-functions/suite-done').bind(this);
+
+    console.log('initialized')
 
 
     return this
 
-}
+};
 
 module.exports = ZapiReporter;

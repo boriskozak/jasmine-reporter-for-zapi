@@ -19,63 +19,6 @@ module.exports = function(spec) {
         specStatus = '2';
         this.globals.status = '2';
     }
-/*
-    this.zephyrService.getStepId(this.globals.executionId, specId, (stepId) => {
-
-        specDonePromises.push(new Promise((resolve) => {
-            this.zephyrService.updateTestStep(stepId, specStatus, () => {
-                resolve();
-            }, (error) => {
-                console.error(error);
-                resolve();
-            });
-        }));
-
-        if ((specStatus === '2' && this.options.screenshot !== 'never') || this.options.screenshot === 'always') {
-
-            specDonePromises.push(new Promise((resolve) => {
-                this.browser.takeScreenshot()
-                    .then((png) => {
-                        const imageStreamBuffer = new this.streamBuffers.WritableStreamBuffer({
-                            initialSize: (100 * 1024),
-                            incrementAmount: (10 * 1024)
-                        });
-                        imageStreamBuffer.write(new Buffer(png, 'base64'));
-                        this.zephyrService.addAttachmentBuffered(stepId, imageStreamBuffer.getContents(), () => {
-                            resolve();
-                        }, (error) => {
-                            console.error(error);
-                            resolve();
-                        });
-                    })
-                    .catch((error) => {
-                        console.error(error);
-                        resolve();
-                    });
-            }));
-
-            if (this.browser.params.imageComparison && this.fs.existsSync(buildImageName(specId))) {
-                specDonePromises.push(new Promise((resolve) => {
-                    this.zephyrService.addAttachment(stepId, buildImageName(specId), () => {
-                        resolve();
-                    }, (error) => {
-                        console.error(error);
-                        resolve();
-                    });
-                }));
-            }
-
-        }
-
-        Promise.all(specDonePromises).then(() => {
-            this.specPromisesResolve[spec.id]();
-        });
-
-    }, (error) => {
-        console.error(error);
-        this.specPromisesResolve[spec.id]();
-    });
-*/
 
 }
 

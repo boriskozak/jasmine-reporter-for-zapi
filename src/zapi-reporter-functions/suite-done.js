@@ -1,11 +1,11 @@
-
 module.exports = function() {
 
     if (this.disabled) {
         return;
     }
 
-    Promise.all(this.specPromises).then(() => {
+
+    Promise.all(this.suitePromises).then(() => {
         this.zapiService.updateExecutionStatus(
             this.globals.executionId,
             this.globals.issueKey,
@@ -21,8 +21,10 @@ module.exports = function() {
             (error) => {
                 console.error(error);
                 if (this.onCompleteDefer.resolve) {
+
                     this.onCompleteDefer.resolve();
                 } else {
+
                     this.onCompleteDefer.fulfill();
                 }
             }
@@ -30,4 +32,3 @@ module.exports = function() {
     });
 
 }
-

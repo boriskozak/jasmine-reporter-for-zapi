@@ -9,5 +9,14 @@ module.exports = function(spec) {
         this.specPromisesResolve[spec.id] = resolve;
     }));
 
+
+    this.specPromises.push(new Promise((resolve) => {
+    	setTimeout(function() {
+    		console.log("this is a spec promise that delays 5 seconds")
+    		resolve();
+    	},5000)
+    }));
+
+
 }
 
