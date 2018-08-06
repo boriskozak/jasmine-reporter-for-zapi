@@ -9,7 +9,7 @@ const ZapiReporter = (onPrepareDefer, onCompleteDefer, browser) => {
         projectId: '15100'
     };
 
-    console.log('initializing reporter')
+    console.log('initializing ZAPI reporter')
 
     this.disabled = false
 
@@ -49,9 +49,6 @@ const ZapiReporter = (onPrepareDefer, onCompleteDefer, browser) => {
     this.specStarted = require('./zapi-reporter-functions/spec-started').bind(this);
     this.specDone = require('./zapi-reporter-functions/spec-done').bind(this);
     this.suiteDone = require('./zapi-reporter-functions/suite-done').bind(this);
-
-    console.log('initialized')
-
 
     return this
 

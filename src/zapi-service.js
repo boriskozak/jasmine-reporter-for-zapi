@@ -160,8 +160,6 @@ var createExecution = function(issueKey, projectId, executionStatus) {
 
 var createAdHocExecution = function(issueKey, projectId) {
     //find the issue key
-    console.log("issue key " + issueKey)
-    console.log("project id " + projectId)
     return getIssueIdFromIssueKey(issueKey).then((issueId) => {
         // get the cycle id
         body = {

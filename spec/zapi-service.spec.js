@@ -93,7 +93,7 @@ describe('ZapiService', () => {
 
     });
 
-    xit('should delete all executions for an ID', (done) => {
+    it('should delete all executions for an ID', (done) => {
 
         ZAPI.deleteAllExecutionsForIssue("APPLY-2302").then((result) => {
             console.log(result);
