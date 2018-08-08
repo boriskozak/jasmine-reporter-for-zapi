@@ -6,7 +6,7 @@ const ZapiReporter = (onPrepareDefer, onCompleteDefer, browser) => {
         executionId: '',
         cycleId: '',
         status: '1',
-        projectId: '15100'
+        projectId: ''
     };
 
     console.log('initializing ZAPI reporter')

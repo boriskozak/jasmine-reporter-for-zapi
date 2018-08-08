@@ -11,6 +11,10 @@ module.exports = function(suite) {
         return;
     }
     this.globals.issueKey = issueKey
+    
+    if (typeof projectId !== 'undefined') {
+        this.globals.projectId = projectId;
+    }
 
 
     this.suitePromises.push(new Promise((resolve) => {
