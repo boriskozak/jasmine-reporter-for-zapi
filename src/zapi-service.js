@@ -39,7 +39,6 @@ function callZapiCloud(METHOD, URI, CONTENT_TYPE, ACCESS_KEY, SECRET_KEY, USER, 
     let options = {
         'method': METHOD,
         'url': API_URL,
-        //'url' : 'https://prod-api.zephyr4jiracloud.com/connect/public/rest/api/1.0/cycles/search?projectId=15100&versionId=-1',
         'headers': {
             'zapiAccessKey': ACCESS_KEY,
             'Authorization': 'JWT ' + token,
@@ -161,10 +160,10 @@ var createExecution = function(issueKey, projectId, executionStatus) {
 var createAdHocExecution = function(issueKey, projectId) {
     //find the issue key
     return getIssueIdFromIssueKey(issueKey).then((issueId) => {
-        // get the cycle id
         body = {
             "projectId": projectId,
             "issueId": issueId,
+            // -1 is passed to create an AdHoc execution.   
             "versionId": -1
         }
         return callZapiCloud('POST', '/execution', 'application/json', ...__ZAPIcreds, body).then((execution) => {

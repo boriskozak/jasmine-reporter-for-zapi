@@ -37,7 +37,6 @@ exports.config = {
         jasmine.getEnv().addReporter(ZapiReporter(onPrepareDefer, onCompleteDefer, browser));
     }
     catch(err) {
-        console.log('foo')
         console.log(err)
     }
 
@@ -67,4 +66,8 @@ describe('Suite: Search companies @APPLY-2302', function() {
     });
 
 });
+
+## Debugging 
+pass DEBUG=true to enable verbose API calls to help with debugging 
+
 ```
