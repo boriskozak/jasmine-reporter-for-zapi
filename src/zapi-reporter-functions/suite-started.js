@@ -16,9 +16,17 @@ module.exports = function(suite) {
         this.globals.projectId = projectId;
     }
 
+    if (typeof cycleName !== 'undefined') {
+        this.globals.cycleName = cycleName;
+    }
+
+    else {
+        this.globals.cycleName = "Ad hoc";
+    }
+
 
     this.suitePromises.push(new Promise((resolve) => {
-        this.zapiService.createAdHocExecution(issueKey, this.globals.projectId).then((executionId) => {
+        this.zapiService.createExecution(issueKey, this.globals.projectId, this.globals.cycleName).then((executionId) => {
             this.globals.executionId = executionId;
 
             if (this.onPrepareDefer.resolve) {

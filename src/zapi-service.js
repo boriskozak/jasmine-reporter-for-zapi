@@ -113,9 +113,9 @@ var deleteAllExecutionsForIssue = function(issueKey) {
             return execution.executionId;
         })
         body = {
-            "executions" : executionIds
+            "executions": executionIds
         }
-        return callZapiCloud('POST', '/executions/delete', 'application/json', ...__ZAPIcreds,body);
+        return callZapiCloud('POST', '/executions/delete', 'application/json', ...__ZAPIcreds, body);
 
 
     });
@@ -136,21 +136,20 @@ var getCycleFromCycleName = function(jiraProjectId, jiraProjectVersion, cycleNam
         });
 }
 
-var createExecution = function(issueKey, projectId, executionStatus) {
+var createExecution = function(issueKey, projectId, cycleName) {
     //find the issue key
     return getIssueIdFromIssueKey(issueKey).then((issueId) => {
         // get the cycle id
-        return getCycleFromCycleName(projectId, -1, "Ad hoc").then((result) => {
-            cycleId = result[0].ztId
+        return getCycleFromCycleName(projectId, -1, cycleName).then((result) => {
+            cycleId = result[0].id
             body = {
                 "projectId": projectId,
                 "issueId": issueId,
-                "versionId": -1,
-                "status": { "id": executionStatus }
+                "cycleId": cycleId,
+                "versionId": -1
             }
             return callZapiCloud('POST', '/execution', 'application/json', ...__ZAPIcreds, body).then((execution) => {
-                executionId = execution.execution.id
-                return callZapiCloud('PUT', '/execution/' + executionId, 'application/json', ...__ZAPIcreds, body)
+                return execution.execution.id
             });
 
         })

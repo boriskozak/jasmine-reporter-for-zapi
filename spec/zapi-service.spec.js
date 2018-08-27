@@ -29,10 +29,10 @@ describe('ZapiService', () => {
     });
 
 
-    it('should return executions for an issue', (done) => {
+    xit('should return executions for an issue', (done) => {
         issueKey = "APPLY-2302"
         ZAPI.getExecutionsForIssue(issueKey).then((result) => {
-        	console.log(result.tests)
+            console.log(result.tests)
             expect(result.totalTests).toBeGreaterThan(0);
             done();
         })
@@ -57,27 +57,29 @@ describe('ZapiService', () => {
         })
     });
 
-    xit('should create a passed execution by issue id and project id', (done) => {
+    xit('should create an execution by issue id and project id', (done) => {
 
-        ZAPI.createExecution("APPLY-2302", 15100, 1).then((result) => {
+        ZAPI.createExecution("APPLY-2302", 15100).then((result) => {
             console.log(result);
             done();
         })
 
     });
 
-    xit('should create a failed execution by issue id and project id', (done) => {
-
-        ZAPI.createExecution("APPLY-2302", 15100, 2).then((result) => {
-            console.log(result);
-            done();
-        })
-
-    });
 
     xit('should create a new Ad Hoc execution given an issue key and project id', (done) => {
 
         ZAPI.createAdHocExecution("APPLY-2302", 15100).then((result) => {
+            console.log(result);
+            done();
+        })
+
+    });
+
+    it('should create a new execution for a specific cycle if provided given an issue key and project id', (done) => {
+
+        cycleName = "ENVIRONMENT-QA"
+        ZAPI.createExecution("APPLY-2302", 15100,2).then((result) => {
             console.log(result);
             done();
         })
@@ -93,7 +95,7 @@ describe('ZapiService', () => {
 
     });
 
-    it('should delete all executions for an ID', (done) => {
+    xit('should delete all executions for an ID', (done) => {
 
         ZAPI.deleteAllExecutionsForIssue("APPLY-2302").then((result) => {
             console.log(result);
