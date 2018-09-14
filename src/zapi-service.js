@@ -38,6 +38,7 @@ function callZapiCloud(METHOD, URI, CONTENT_TYPE, ACCESS_KEY, SECRET_KEY, USER, 
 
     let options = {
         'method': METHOD,
+        'timeout': 45000,
         'url': API_URL,
         'headers': {
             'zapiAccessKey': ACCESS_KEY,
